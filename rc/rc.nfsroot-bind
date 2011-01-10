@@ -29,16 +29,14 @@
 #
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 RAMDIRS="/etc /var"
-INITPROG="/sbin/init"
+PREINITPROG=/etc/rc.nfsroot-init
 configfile=/etc/sysconfig/nfsroot
 if [ -f $configfile ]; then
    . $configfile
 fi
 prog=rc.nfsroot-bind
 
-testfile=/.foo
-if touch ${testfile} 2>/dev/null; then
-   rm -f ${testfile}
+if touch / 2>/dev/null; then
    echo "${prog}: root file system is read-write" >&2
    return 1 
 fi
@@ -63,6 +61,6 @@ for dir in ${RAMDIRS}; do
     mount -n --bind /writeable${dir} ${dir}
 done
 
-echo "${prog}: passing control to ${INITPROG}" >&2
-exec ${INITPROG} "$@" </dev/console >/dev/console 2>&1
+echo "${prog}: passing control to ${PREINITPROG}" >&2
+exec ${PREINITPROG} "$@" </dev/console >/dev/console 2>&1
 return 1

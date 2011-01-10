@@ -28,16 +28,14 @@
 #
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
-INITPROG=/sbin/init
+PREINITPROG=/etc/rc.nfsroot-init
 configfile=/etc/sysconfig/nfsroot
 if [ -f $configfile ]; then
    . $configfile
 fi
 prog=rc.nfsroot-ram
 
-testfile=/.foo
-if touch ${testfile} 2>/dev/null; then
-   rm -f ${testfile}
+if touch / 2>/dev/null; then
    echo "${prog}: root file system is read-write" >&2
    return 1
 fi
@@ -59,6 +57,6 @@ fi
 cd /writeable
 mkdir -p readonly
 pivot_root . readonly
-echo "${prog}: passing control to ${INITPROG}" >&2
-exec chroot . ${INITPROG} "$@" <dev/console >dev/console 2>&1
+echo "${prog}: passing control to ${PREINITPROG}" >&2
+exec chroot . ${PREINITPROG} "$@" <dev/console >dev/console 2>&1
 return 1

@@ -27,24 +27,20 @@
 # Root is a union of /readonly (shared ro nfs root) and /writeable (ramdisk).
 #
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
-INITPROG=/sbin/init
+PREINITPROG=/etc/rc.nfsroot-init
 configfile=/etc/sysconfig/nfsroot
 if [ -f $configfile ]; then
    . $configfile
 fi
 prog=rc.nfsroot-aufs
 
-testfile=/.foo
-if touch ${testfile} 2>/dev/null; then
-   rm -f ${testfile}
+if touch / 2>/dev/null; then
    echo "${prog}: root file system is read-write" >&2
    return 1
 fi
 
-mount -n -t proc /proc /proc
 modprobe aufs 2>/dev/null
 result=$?
-umount -n /proc
 if [ ${result} != 0 ]; then
    echo "${prog}: aufs is unavailable"
    return 1
@@ -68,7 +64,6 @@ mount -n --move /writeable /mnt/writeable
 cd /mnt
 mkdir -p readonly
 pivot_root . readonly
-echo "${prog}: passing control to ${INITPROG}" >&2
-exec chroot . ${INITPROG} "$@" <dev/console >dev/console 2>&1
-echo "${prog}: exec failed"
+echo "${prog}: passing control to ${PREINITPROG}" >&2
+exec chroot . ${PREINITPROG} "$@" <dev/console >dev/console 2>&1
 return 1

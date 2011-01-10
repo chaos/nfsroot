@@ -1,3 +1,42 @@
+2010-01-10 Jim Garlick <garlick@llnl.gov>
+
+	* : tag 3.5
+
+	* nfsroot.spec.in : Add missing memtest86+ BuildRequires.
+
+	* mkinitrd/Makefile.am, dracut/Makeifle.am, mklivecd/Makefile.am :
+	Move scripts from /sbin to /usr/sbin.
+
+	* dracut/nfsroot-* : Rework nfsroot-setdefault options.
+
+2010-01-08 Jim Garlick <garlick@llnl.gov>
+
+	* rc/nfsroot : Removed.
+
+	* rc/nfsroot-init : Insert this script between method scripts
+	and init.  Do the things that the sysv init script did, only
+	get it done earlier.  Run /etc/nfsroot.d/* scripts, if any.
+	Finally exec $INITPROG.
+
+	* rc.nfsroot-* : Exec /etc/rc.nfsroot-init instead of $INITPROG.
+
+	* rc/rc.nfsroot : Fix rw export test so it will prevent startup
+	if root is exported rw but mounted ro.
+
+	* rc/rc.nfsroot* : Touch / not /.foo, which simplifies code.
+
+	* dracut/installkernel : Don't install unionfs or aufs modules.
+	These would be loaded from the read-only root not the initramfs.
+
+	* dracut/nfsroot-setdefault : New.
+
+	* dracut/nfsroot-rebuild, dracut/nfsroot-prerm, dracut-postinst :
+	Call nfsroot-setdefault to move default symlinks and update
+	pxelinux.msg file, starring the default.
+
+	* dracut/Makefile.am, dracut.spec.in : Move scripts from /sbin
+	to /usr/sbin.
+
 2010-01-07 Jim Garlick <garlick@llnl.gov>
 
 	* boot/pxelinux.cfg, configpxe/configpxe, dracut/nfsroot-postinst,
