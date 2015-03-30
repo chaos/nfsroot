@@ -1,3 +1,5 @@
+### nfsroot
+
 *nfsroot* is a package designed to help make Linux root file system
 images network-bootable and sharable by many clients.  It was designed
 for the CHAOS Linux distribution (now renamed to TOSS) for clusters,
@@ -22,14 +24,17 @@ configuration.
 *nfsroot* leaves the root server configuration and configuration management
 within the image to your superior mental prowess.  This minimalist design
 is intended for sites (like ours) that already have procedures and
-techniques in place for managing these subsystems and don't want a
+techniques in place for managing these subsystems and do not want a
 diskless solution to help.
 
-*nfsroot version 4* will run on TOSS 3  (RHEL 7 based), _in development_.
+### history
 
-*nfsroot version 3* runs on CHAOS 5/TOSS 2  (RHEL 6 based), _feature-frozen_.
+[netroot](https://github.com/chaos/netroot)
+replaces *nfsroot* in TOSS 3 (RHEL 7 based)
 
-*nfsroot version 2* ran on CHAOS 4/TOSS 1 (RHEL 5 based), _end-of-life_.
+*nfsroot version 3* runs on CHAOS 5/TOSS 2  (RHEL 6 based)
 
-*nfsroot version 1* ran on CHAOS 3 (RHEL 4 based), _end-of-life_.
+*nfsroot version 2* ran on CHAOS 4/TOSS 1 (RHEL 5 based)
+
+*nfsroot version 1* ran on CHAOS 3 (RHEL 4 based)
 
